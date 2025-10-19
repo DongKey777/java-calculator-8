@@ -1,5 +1,6 @@
 package calculator;
 
+import calculator.util.NumberValidator;
 import java.util.Arrays;
 
 public class Calculator {
@@ -33,10 +34,7 @@ public class Calculator {
     private int parseNumber(String token) {
         try {
             int number = Integer.parseInt(token.trim());
-
-            if (number <= 0) {
-                throw new IllegalArgumentException("양수만 입력 가능" + number);
-            }
+            NumberValidator.validate(number);
             return number;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자가 아닌 입력 불가능" + token);
