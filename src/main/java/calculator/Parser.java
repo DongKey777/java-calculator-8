@@ -9,12 +9,16 @@ public class Parser {
         if (input == null || input.isEmpty()) {
             return new String[0];
         }
+
         Delimiter delimiter = new Delimiter();
+        String numbersToSplit = input;
+
         if (hasCustomDelimiter(input)) {
             delimiter.addDelimiter(extractCustomDelimiter(input));
+            numbersToSplit = extractNumbers(input);
         }
 
-        
+        return delimiter.split(numbersToSplit);
     }
 
     private static boolean hasCustomDelimiter(String input) {
@@ -30,5 +34,9 @@ public class Parser {
 
         matcher.find();
         return matcher.group(1);
+    }
+
+    private static String extractNumbers(String input) {
+        return input.substring(input.indexOf("\n") + 1);
     }
 }
