@@ -1,19 +1,38 @@
 package calculator;
 
-import static camp.nextstep.edu.missionutils.Console.readLine;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Calculator {
-    private static final String DEFAULT_DELIMITERS = "[:,]";
 
-    public static String input() {
-        System.out.println("덧셈할 문자열을 입력해 주세요.");
-        return readLine();
+    public int calculate(String input) {
+        String[] tokens = Parser.parse(input);
+        int[] numbers = toNumbers(tokens);
+        return sum(numbers);
     }
 
-    public static String[] parse(String inputStr) {
-        String[] numbers = inputStr.split(DEFAULT_DELIMITERS);
-        return numbers;
+    private int sum(int[] numbers) {
+        int result = 0;
+        for (int num : numbers) {
+            result += num;
+        }
+        return result;
     }
 
+    private int[] toNumbers(String[] tokens) {
+        List<Integer> numbers = new ArrayList<>();
 
+        for (String token : tokens) {
+            if (!token.trim().isEmpty()) {
+                numbers.add(parseNumber(token));
+            }
+        }
+
+        return numbers.stream().mapToInt(i -> i).toArray();
+    }
+
+    private int parseNumber(String token) {
+        int number = Integer.parseInt(token.trim());
+        return number;
+    }
 }
