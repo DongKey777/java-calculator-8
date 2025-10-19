@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Calculator {
+    private final Parser parser;
+
+    public Calculator() {
+        Delimiter delimiter = new Delimiter();
+        this.parser = new Parser(delimiter);
+    }
 
     public int calculate(String input) {
-        String[] tokens = Parser.parse(input);
+        String[] tokens = parser.parse(input);
         int[] numbers = toNumbers(tokens);
         return sum(numbers);
     }

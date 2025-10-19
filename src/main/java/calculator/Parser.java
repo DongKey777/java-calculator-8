@@ -4,13 +4,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
+    private final Delimiter delimiter;
 
-    public static String[] parse(String input) {
+    public Parser(Delimiter delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public String[] parse(String input) {
         if (input == null || input.isEmpty()) {
             return new String[0];
         }
 
-        Delimiter delimiter = new Delimiter();
         String numbersToSplit = input;
 
         if (hasCustomDelimiter(input)) {
@@ -21,14 +25,14 @@ public class Parser {
         return delimiter.split(numbersToSplit);
     }
 
-    private static boolean hasCustomDelimiter(String input) {
+    private boolean hasCustomDelimiter(String input) {
         if (input == null) {
             return false;
         }
         return input.matches("^//.\\\\n.*");
     }
 
-    private static String extractCustomDelimiter(String input) {
+    private String extractCustomDelimiter(String input) {
         Pattern pattern = Pattern.compile("^//(.)\\\\n.*");
         Matcher matcher = pattern.matcher(input);
 
@@ -36,7 +40,7 @@ public class Parser {
         return matcher.group(1);
     }
 
-    private static String extractNumbers(String input) {
+    private String extractNumbers(String input) {
         return input.substring(input.indexOf("\\n") + 2);
     }
 }
