@@ -25,11 +25,11 @@ public class Parser {
         if (input == null) {
             return false;
         }
-        return input.matches("^//.\\n.*");
+        return input.matches("^//.\\\\n.*");
     }
 
     private static String extractCustomDelimiter(String input) {
-        Pattern pattern = Pattern.compile("^//(.)\n.*");
+        Pattern pattern = Pattern.compile("^//(.)\\\\n.*");
         Matcher matcher = pattern.matcher(input);
 
         matcher.find();
@@ -37,6 +37,6 @@ public class Parser {
     }
 
     private static String extractNumbers(String input) {
-        return input.substring(input.indexOf("\n") + 1);
+        return input.substring(input.indexOf("\\n") + 2);
     }
 }

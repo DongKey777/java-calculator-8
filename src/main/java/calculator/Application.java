@@ -7,6 +7,6 @@ public class Application {
 
         Calculator calculator = new Calculator();
         int number = calculator.calculate(readLine());
-        System.out.println(number);
+        System.out.println("결과 : " + number);
     }
 }
