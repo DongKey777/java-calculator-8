@@ -1,14 +1,12 @@
 package calculator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class Calculator {
     private final Parser parser;
 
-    public Calculator() {
-        Delimiter delimiter = new Delimiter();
-        this.parser = new Parser(delimiter);
+    public Calculator(Parser parser) {
+        this.parser = parser;
     }
 
     public int calculate(String input) {
@@ -26,15 +24,10 @@ public class Calculator {
     }
 
     private int[] toNumbers(String[] tokens) {
-        List<Integer> numbers = new ArrayList<>();
-
-        for (String token : tokens) {
-            if (!token.trim().isEmpty()) {
-                numbers.add(parseNumber(token));
-            }
-        }
-
-        return numbers.stream().mapToInt(i -> i).toArray();
+        return Arrays.stream(tokens)
+                .filter(token -> !token.trim().isEmpty())
+                .mapToInt(this::parseNumber)
+                .toArray();
     }
 
     private int parseNumber(String token) {
