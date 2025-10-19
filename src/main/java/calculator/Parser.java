@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 public class Parser {
     private final Delimiter delimiter;
+    private static final Pattern CUSTOM_DELIMITER_PATTERN = Pattern.compile("^//(.)\\\\n.*");
+    private static final int DELIMITER_SUFFIX_LENGTH = 2;
 
     public Parser(Delimiter delimiter) {
         this.delimiter = delimiter;
@@ -14,33 +16,27 @@ public class Parser {
         if (input == null || input.isEmpty()) {
             return new String[0];
         }
-
-        String numbersToSplit = input;
-
-        if (hasCustomDelimiter(input)) {
-            delimiter.addDelimiter(extractCustomDelimiter(input));
-            numbersToSplit = extractNumbers(input);
+        if (!hasCustomDelimiter(input)) {
+            return delimiter.split(input);
         }
 
+        delimiter.addDelimiter(extractCustomDelimiter(input));
+        String numbersToSplit = extractNumbers(input);
         return delimiter.split(numbersToSplit);
     }
 
     private boolean hasCustomDelimiter(String input) {
-        if (input == null) {
-            return false;
-        }
         return input.matches("^//.\\\\n.*");
     }
 
     private String extractCustomDelimiter(String input) {
-        Pattern pattern = Pattern.compile("^//(.)\\\\n.*");
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = CUSTOM_DELIMITER_PATTERN.matcher(input);
 
         matcher.find();
         return matcher.group(1);
     }
 
     private String extractNumbers(String input) {
-        return input.substring(input.indexOf("\\n") + 2);
+        return input.substring(input.indexOf("\\n") + DELIMITER_SUFFIX_LENGTH);
     }
 }
