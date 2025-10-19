@@ -32,7 +32,15 @@ public class Calculator {
     }
 
     private int parseNumber(String token) {
-        int number = Integer.parseInt(token.trim());
-        return number;
+        try {
+            int number = Integer.parseInt(token.trim());
+
+            if (number < 0) {
+                throw new IllegalArgumentException("음수 입력 불가능" + number);
+            }
+            return number;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자가 아닌 입력 불가능" + token);
+        }
     }
 }
