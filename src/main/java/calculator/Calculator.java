@@ -1,7 +1,6 @@
 package calculator;
 
-import calculator.util.NumberValidator;
-import java.util.Arrays;
+import calculator.util.NumberConverter;
 
 public class Calculator {
     private final Parser parser;
@@ -12,7 +11,7 @@ public class Calculator {
 
     public int calculate(String input) {
         String[] tokens = parser.parse(input);
-        int[] numbers = toNumbers(tokens);
+        int[] numbers = NumberConverter.convert(tokens);
         return sum(numbers);
     }
 
@@ -22,22 +21,5 @@ public class Calculator {
             result += num;
         }
         return result;
-    }
-
-    private int[] toNumbers(String[] tokens) {
-        return Arrays.stream(tokens)
-                .filter(token -> !token.trim().isEmpty())
-                .mapToInt(this::parseNumber)
-                .toArray();
-    }
-
-    private int parseNumber(String token) {
-        try {
-            int number = Integer.parseInt(token.trim());
-            NumberValidator.validate(number);
-            return number;
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자가 아닌 입력 불가능" + token);
-        }
     }
 }
