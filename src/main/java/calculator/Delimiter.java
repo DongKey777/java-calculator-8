@@ -1,17 +1,16 @@
 package calculator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class Delimiter {
+    private static final List<String> DEFAULT_DELIMITERS = Arrays.asList(",", ":");
     private final List<String> delimiters;
 
     public Delimiter() {
-        this.delimiters = new ArrayList<>();
-
-        this.delimiters.add(",");
-        this.delimiters.add(":");
+        this.delimiters = new ArrayList<>(DEFAULT_DELIMITERS);
     }
 
     public void addDelimiter(String delimiter) {
