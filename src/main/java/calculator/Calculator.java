@@ -34,8 +34,8 @@ public class Calculator {
         try {
             int number = Integer.parseInt(token.trim());
 
-            if (number < 0) {
-                throw new IllegalArgumentException("음수 입력 불가능" + number);
+            if (number <= 0) {
+                throw new IllegalArgumentException("양수만 입력 가능" + number);
             }
             return number;
         } catch (NumberFormatException e) {
