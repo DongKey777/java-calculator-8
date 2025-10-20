@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class Parser {
     private final Delimiter delimiter;
-    private static final Pattern CUSTOM_DELIMITER_PATTERN = Pattern.compile("^//(.)\\\\n.*");
+    private static final Pattern CUSTOM_DELIMITER_PATTERN = Pattern.compile("^//(.+)\\\\n.*");
     private static final int DELIMITER_SUFFIX_LENGTH = 2;
 
     public Parser(Delimiter delimiter) {
@@ -26,14 +26,19 @@ public class Parser {
     }
 
     private boolean hasCustomDelimiter(String input) {
-        return input.matches("^//.\\\\n.*");
+        return input.matches("^//.+\\\\n.*");
     }
 
     private String extractCustomDelimiter(String input) {
         Matcher matcher = CUSTOM_DELIMITER_PATTERN.matcher(input);
 
         matcher.find();
-        return matcher.group(1);
+        String delimiter = matcher.group(1);
+
+        if (delimiter.length() != 1) {
+            throw new IllegalArgumentException("커스텀 구분자는 1글자여야 합니다.");
+        }
+        return delimiter;
     }
 
     private String extractNumbers(String input) {

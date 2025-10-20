@@ -1,6 +1,7 @@
 package calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,5 +32,14 @@ class ParserTest {
     @DisplayName("null 입력시 빈 배열을 반환한다")
     void null_처리() {
         assertThat(parser.parse(null)).isEmpty();
+    }
+
+    @Test
+    @DisplayName("커스텀 구분자는 1글자여야 한다.")
+    void 커스텀_구분자_2글자_이상_예외() {
+        String input = "//;;\\n1;2;3";
+
+        assertThatThrownBy(() -> parser.parse(input))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
