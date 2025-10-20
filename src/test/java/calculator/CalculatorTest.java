@@ -37,10 +37,29 @@ class CalculatorTest {
     }
 
     @Test
+    @DisplayName("커스텀 구분자와 기본 구분자를 함께 사용할 수 있다.")
+    void 커스텀_기본_구분자_함께_사용() {
+        assertThat(calculator.calculate("//a\\n5:6,2")).isEqualTo(13);
+    }
+
+    @Test
     @DisplayName("빈 문자열 입력시 0을 반환한다")
     void 빈_문자열_처리() {
         assertThat(calculator.calculate("")).isEqualTo(0);
     }
+
+    @Test
+    @DisplayName("구분자가 연속으로 나올 경우 0으로 처리한다")
+    void 구분자_연속_처리() {
+        assertThat(calculator.calculate("1,,2")).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("구분자만 있는 경우엔 0을 반환한다")
+    void 구분만_있는_경우() {
+        assertThat(calculator.calculate(",,,,")).isEqualTo(0);
+    }
+
 
     @Test
     @DisplayName("음수 입력시 예외가 발생한다")

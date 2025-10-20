@@ -42,4 +42,17 @@ class ParserTest {
         assertThatThrownBy(() -> parser.parse(input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("커스텀 구분자가 정규표현식 메타문자일 때 처리한다")
+    void 메타문자_커스텀_구분자() {
+        // given
+        String input = "//.\\n1.2.3";
+
+        // when
+        String[] result = parser.parse(input);
+
+        // then
+        assertThat(result).containsExactly("1", "2", "3");
+    }
 }
