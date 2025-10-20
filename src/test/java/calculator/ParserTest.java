@@ -13,7 +13,7 @@ class ParserTest {
 
     @BeforeEach
     void setUp() {
-        parser = new Parser(new Delimiter());
+        parser = new Parser();
     }
 
     @Test
@@ -37,22 +37,13 @@ class ParserTest {
     @Test
     @DisplayName("커스텀 구분자는 1글자여야 한다.")
     void 커스텀_구분자_2글자_이상_예외() {
-        String input = "//;;\\n1;2;3";
-
-        assertThatThrownBy(() -> parser.parse(input))
+        assertThatThrownBy(() -> parser.parse("//;;\\n1;2;3"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("커스텀 구분자가 정규표현식 메타문자일 때 처리한다")
     void 메타문자_커스텀_구분자() {
-        // given
-        String input = "//.\\n1.2.3";
-
-        // when
-        String[] result = parser.parse(input);
-
-        // then
-        assertThat(result).containsExactly("1", "2", "3");
+        assertThat(parser.parse("//.\\n1.2.3")).containsExactly("1", "2", "3");
     }
 }

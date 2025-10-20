@@ -13,8 +13,7 @@ class CalculatorTest {
 
     @BeforeEach
     void setUp() {
-        Delimiter delimiter = new Delimiter();
-        Parser parser = new Parser(delimiter);
+        Parser parser = new Parser();
         calculator = new Calculator(parser);
     }
 
