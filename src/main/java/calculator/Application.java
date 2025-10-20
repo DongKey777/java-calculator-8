@@ -2,9 +2,7 @@ package calculator;
 
 public class Application {
     public static void main(String[] args) {
-
-        Delimiter delimiter = new Delimiter();
-        Parser parser = new Parser(delimiter);
+        Parser parser = new Parser();
         Calculator calculator = new Calculator(parser);
 
         String input = IOHandler.readInput();
